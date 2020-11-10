@@ -37,13 +37,17 @@ RUN \
 
 # copy the wso2 streaming intergator product distribution to user's home directory
 COPY --chown=wso2carbon:wso2 ${STREAMING_INTEGRATOR_NAME}/ ${STREAMING_INTEGRATOR_HOME}
+COPY --chown=wso2carbon:wso2 kafka/ ${USER_HOME}/kafka
+
+RUN apk add bash
 
 # set the user and work directory
 USER ${USER}
 WORKDIR ${USER_HOME}
+RUN chmod +x wso2si/bin/start.sh
 
 # expose streaming-integrator ports
-EXPOSE 7443 7070 9090 9443 7711 7611
+EXPOSE 7443 7070 9090 9443 7711 7611 8006 9092
 
 # initiate container and execute the streaming integrator product startup script
-ENTRYPOINT ["/home/wso2carbon/wso2si/bin/server.sh"]
+ENTRYPOINT ["/home/wso2carbon/wso2si/bin/start.sh"]
