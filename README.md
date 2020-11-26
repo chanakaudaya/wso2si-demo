@@ -111,6 +111,10 @@ Step 4 - Observe the logs in the kafka console consumer
 ```
 
 ### Test Receiving from Kafka.
+In this demo we will see how we can publish events to kafka topic. We can send an HTTP request to `http://0.0.0.0:8006/httpStream` to trigger the relevant actions by `KafkaApp.siddhi`.
+
+![KafkaPub](https://github.com/niruhan/wso2si-demo/blob/main/images/kafka_pub.png?raw=true)
+
 Step 1 - Issue the following command from the shell of wso2si-demo container to start kafka console producer
 ```
 kafka/bin/kafka-console-producer.sh --topic order_topic --broker-list localhost:9092
