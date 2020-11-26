@@ -1,4 +1,18 @@
-# Start the required Docker images
+# WSO2 Streaming Integrator Demos Using Pre-baked Docker Images
+This demonstration used the following two Docker images,
+1. mssql-wso2si-demo - https://hub.docker.com/r/niruhan/mssql-wso2si-demo
+2. wso2si-demo - https://hub.docker.com/r/niruhan/wso2si-demo
+
+![Overall Architecture](https://github.com/niruhan/wso2si-demo/blob/main/images/overall_architecture.png?raw=true)
+
+Note: we will use the image name as the container name using the --name tag when starting the containers for simplicity.
+
+The conainer `mssql-wso2si-demo` contains Microsoft SQL server with a table named `SweetProductionTable` already created. Change data capture is also enabled
+on this table.
+
+The container `wso2si-demo` contains WSO2 Streaming Integrator, Kafka Zookeper, Kafka Server, Kafka Console Client, Kafka Console Producer, Prometheus, and Grafana servers pre-configured to minimize the effort required to follow this demonstration.
+
+## Start the required Docker images
 
 The following commands can be used to build a Docker image for the demonstration from scratch after cloning the repository at https://github.com/niruhan/wso2si-demo. You can skip this step and pull the provided image
 ```
@@ -26,7 +40,7 @@ Step 4 - Start the wso2si-demo with a link to the SQL server
 docker run --name wso2si-demo -p 8006:8006 -p 3000:3000 --link mssql-wso2si-demo niruhan/wso2si-demo
 ```
 
-### Monitoring
+## Monitoring
 In order to observe statistics and insights related to streaming activities performed by wso2si visit `http://localhost:3000`
 In the address above you can access Grafana dashboards related to various metrics. Everything has been preconfigured and baked into this Docker image.
 Use the following credentials if prompted for a login
