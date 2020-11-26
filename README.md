@@ -14,12 +14,6 @@ The container `wso2si-demo` contains WSO2 Streaming Integrator, Kafka Zookeper, 
 
 ## Start the required Docker images
 
-The following commands can be used to build a Docker image for the demonstration from scratch after cloning the repository at https://github.com/niruhan/wso2si-demo. You can skip this step and pull the provided image
-```
-mvn clean install -Ddocker.skip=false
-docker build -t niruhan/wso2si-demo .
-```
-
 Step 1 - Pull the custom mssql image with all the necessary settings preconfigured
 ```
 docker pull niruhan/mssql-wso2si-demo
