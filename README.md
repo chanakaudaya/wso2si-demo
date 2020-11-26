@@ -1,119 +1,253 @@
-<!--
-  ~  Copyright (c) 2017, WSO2 Inc. (http://wso2.com) All Rights Reserved.
-  ~
-  ~  WSO2 Inc. licenses this file to you under the Apache License,
-  ~  Version 2.0 (the "License"); you may not use this file except
-  ~  in compliance with the License.
-  ~  You may obtain a copy of the License at
-  ~
-  ~    http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~  Unless required by applicable law or agreed to in writing,
-  ~  software distributed under the License is distributed on an
-  ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  ~  KIND, either express or implied.  See the License for the
-  ~  specific language governing permissions and limitations
-  ~  under the License.
-  -->
-  
-# Streaming Integrator
+# Start the required Docker images
 
-[![Jenkins Build Status](https://wso2.org/jenkins/view/wso2-dependencies/job/products/job/streaming-integrator/badge/icon)](https://wso2.org/jenkins/view/wso2-dependencies/job/products/job/streaming-integrator/)
-  [![GitHub Release](https://img.shields.io/github/release-pre/wso2/streaming-integrator.svg)](https://github.com/wso2/streaming-integrator/releases/)
-  [![GitHub Release Date](https://img.shields.io/github/release-date-pre/wso2/streaming-integrator.svg)](https://github.com/wso2/streaming-integrator/releases)
-  [![GitHub Open Issues](https://img.shields.io/github/issues-raw/wso2/streaming-integrator.svg)](https://github.com/wso2/streaming-integrator/commits/master)
-  [![GitHub Last Commit](https://img.shields.io/github/last-commit/wso2/streaming-integrator.svg)](https://github.com/wso2/streaming-integrator/commits/master)
-  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-  [<img src="https://img.shields.io/badge/Slack-@wso2--ei-blue">](https://wso2-ei.slack.com/messages/streamingintegrator/)
-
-## Overview
-
-WSO2 Streaming Integrator (SI) is a streaming data processing server that allows you to integrate streaming data and take action based on streaming data.
-
-WSO2 SI can be effectively used for:
-- Realtime ETL with files, DBs, SaaS apps, HTTP endpoints, etc.
-- Working with streaming messaging systems such as Kafka and NATS.
-- Streaming data integration
-- Executing complex integrations based on streaming data with [WSO2 Micro Integrator](https://github.com/wso2/micro-integrator).
-
-WSO2 SI is powered by [Siddhi.io](https://siddhi.io/), a well-known cloud native open source stream processing engine. Siddhi lets users write complex stream processing logic using a SQL-like language known as [SiddhiQL](https://siddhi.io/en/v5.0/docs/). You can aggregate, transform, enrich, analyze, cleanse and correlate streams of data on the fly using Siddhi queries and constructs.
-
-WSO2 SI lets you connect to any data source with any destination regardless of different protocols and data formats that are used by different endpoints. The SI store API provides the capability to fetch stored and aggregated data kept in-memory and in DBs via a REST API on demand using ad-hoc queries.
-
-[SI tooling](https://github.com/wso2/streaming-integrator-tooling) provides a web-based IDE that allows you to build Siddhi applications with a drag-and-drop graphical editor, or a streaming SQL code editor. Its capability to simulate data streams and to debug Siddhi queries facilitates you to test your Siddhi applications. Created Siddhi applications can be directly deployed in a VM via the IDE, exported as a Docker image, or deployed as K8s artifacts that can be used with the Siddhi K8s Operator.
-
-SI has native support for Kubernetes with a [K8s Operator](https://siddhi.io/en/v5.1/docs/siddhi-as-a-kubernetes-microservice/) designed to provide a convenient way of deploying SI on K8s. SI has a very simple deployment architecture, and you can achieve high availability with zero data loss with two nodes of SI.
-
-Integration flows deployed in [WSO2 Micro Integrator (MI)](https://github.com/wso2/micro-integrator) can be invoked directly by SI in a seamless manner using low latency RPC. This allows you to build robust data processing and integration pipelines by combining powerful streaming and integration capabilities.
-
-![Streaming Integrator/ Workflow](docs/images/streaming-integrator.png)
-
-## Download
-
-WSO2 Streaming Integrator is currently in the development stage. Therefore, you can download the source of WSO2 Streaming Integrator and build it. For detailed instructions, see the [Building from the Source section](#building-from-the-source).
-<!-- Please download the latest WSO2 Streaming Integrator release from [here]()  -->
-
-## Building from the Source
-
-To build WSO2 Streaming Integrator from source, follow the steps below.
-
-1. Clone or download the source code from this repository.
-2. Run `mvn clean install` from the root directory of the repository.
-3. The generated Streaming Integrator distribution can be found at `streaming-integrator/modules/distribution/target/-streaming-integrator-<version>.zip`
-
-When building with dependencies, you need to build in the following order.
-1. [siddhi](https://github.com/siddhi-io/siddhi)
-2. [carbon-analytics-common](https://github.com/wso2/carbon-analytics-common)
-3. [carbon-analytics](https://github.com/wso2/carbon-analytics)
-4. [carbon-dashboards](https://github.com/wso2/carbon-dashboards)
-5. [carbon-ui-server](https://github.com/wso2/carbon-ui-server)
-
-## Getting Started
-
-To started with the Streaming Integrator follow the guides given below.
-
-* [Quick Start Guide](https://ei.docs.wso2.com/en/latest/streaming-integrator/quick-start-guide/quick-start-guide/): Step by step guide to get your first Siddhi application running in less than 5 minutes.
-
-* [Streaming Integrator 101](https://ei.docs.wso2.com/en/latest/streaming-integrator/quick-start-guide/getting-started/getting-started-guide-overview/): A 30 minute guide to explore the end to end development lifecycle of the Streaming Integrator.
-
-
-## Deploy in Docker
-
-WSO2 Streaming Integrator has a Docker distribution so that it can be deployed in any container-orchestration system.
-The Docker image can be built from the source, or downloaded directly from Docker Hub.
-
-### Build the Docker Image
-
-Before building the docker image, install Docker on the host machine.
-
-To build the Docker image from the source, issue the following command from the root directory.<br/>
-`mvn clean install -Ddocker.skip=false`
-
-### Get the Image from Docker Hub
-
-To get the Docker image from Docker Hub, issue the following command.
-
-
-```bash
-docker pull wso2/streaming-integrator
+The following commands can be used to build a Docker image for the demonstration from scratch after cloning the repository at https://github.com/niruhan/wso2si-demo. You can skip this step and pull the provided image
+```
+mvn clean install -Ddocker.skip=false
+docker build -t niruhan/wso2si-demo .
 ```
 
-## Deploy in Kubernetes
+Step 1 - Pull the custom mssql image with all the necessary settings preconfigured
+```
+docker pull niruhan/mssql-wso2si-demo
+```
 
-WSO2 Streaming Integrator can be deployed in a Kubernetes cluster using Siddhi Operator.
+Step 2 - Start the SQL server
+```
+docker run -d --name mssql-wso2si-demo niruhan/mssql-wso2si-demo
+```
 
-* [Siddhi operator](https://github.com/siddhi-io/siddhi-operator) enables the deployment of Siddhi applications directly in your Kubernetes cluster using a Kubernetes Custom Resource.
-For more details see [Installing Streaming Integrator Using Kubernetes](https://docs.wso2.com/display/INSTALL/Installing+Enterprise+Integrator+Using+Kubernetes).
+Step 3 - Pull the wso2si-demo Docker image
+```
+docker pull niruhan/wso2si-demo
+```
 
-## Support
+Step 4 - Start the wso2si-demo with a link to the SQL server
+```
+docker run --name wso2si-demo -p 8006:8006 -p 3000:3000 --link mssql-wso2si-demo niruhan/wso2si-demo
+```
 
-We are committed to ensuring that your enterprise middleware deployment is completely supported from evaluation to production. Our unique approach ensures that all support leverages our open development methodology and is provided by the very same engineers who build the technology.
+### Monitoring
+In order to observe statistics and insights related to streaming activities performed by wso2si visit `http://localhost:3000`
+In the address above you can access Grafana dashboards related to various metrics. Everything has been preconfigured and baked into this Docker image.
+Use the following credentials if prompted for a login
+```
+username: admin
+password: admin
+```
 
-For more details and to take advantage of this unique opportunity please visit our [support site](http://wso2.com/support).
+## Demo 1 - Receive and Send events with Kafka
+
+### Test Publishing to Kafka.
+
+Step 1 - Access the shell of the wso2si-demo container
+```
+docker exec -it wso2si-demo bash
+```
+
+Step 2 - Start kafka console consumer on the topic “production_topic”
+```
+kafka/bin/kafka-console-consumer.sh --topic production_topic --from-beginning --bootstrap-server localhost:9092
+```
+
+Step 3 - Send an HTTP Request
+```
+curl --location --request POST 'http://0.0.0.0:8006/httpStream' --header 'Content-Type: application/json' --data-raw '{ "event": { "batchNumber": 7, "lowTotal": 45.6 } }'
+```
+
+Step 4 - Observe the logs in the kafka console consumer
+```
+{"event":{"batchNumber":7,"lowTotal":45.6}}
+```
+
+### Test Receiving from Kafka.
+Step 1 - Issue the following command from the shell of wso2si-demo container to start kafka console producer
+```
+kafka/bin/kafka-console-producer.sh --topic order_topic --broker-list localhost:9092
+```
+
+Step 2 - Copy and paste the following event into the console producer and hit enter
+```
+{ "event": { "batchNumber": 7, "lowTotal": 45.6 } }
+```
+
+Step 3 - Observe the following logs in the terminal used to start wso2si-demo container
+```
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605007067048, data=[7, 45.6], isExpired=false}
+```
+
+## Demo 2 - Change Data Capture (CDC) with Microsoft SQL Server
+
+The SQL server custom image at niruhan/mssql-wso2si-demo had a database called "production" and a table named "SweetProductionTable". CDC is enabled on this table. In addition, a CDC source is configured in CDCApp.siddhi which listens for insertions into "SweetProductionTable" and the event is published into “kafka_in” topic. Since we already have a kafka source configured on the same topic, this event is read from the topic and a log is printed
 
 
-## Reporting Issues
+Step 1 - Log in to the  SQL server image from a new terminal
+```
+docker exec -it mssql-wso2si-demo bash
+```
 
-We encourage you to report issues, documentation faults and feature requests regarding WSO2 Streaming integrator through the [WSO2 SI Issue Tracker](https://github.com/wso2/streaming-integrator/issues).
+Step 2 - Access the MS SQL Commandline
+```
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Wso2carbon
+```
 
-When reporting security issues, please report them to [security@wso2.com](mailto:security@wso2.com), and make sure that you adhere to [WSO2 Security Vulnerability Reporting Guidelines](https://docs.wso2.com/display/Security/WSO2+Security+Vulnerability+Reporting+Guidelines). 
+Step 3 - Use the database named “production”
+```
+use production
+```
+```
+go
+```
+
+Step 4 - A table named “SweetProductionTable” is already created and CDC is enabled. Insert a row into the table using the following SQL command
+```
+INSERT INTO SweetProductionTable VALUES (1, 23.5);
+```
+```
+go
+```
+
+Step 5 - Observe logs in the terminal used to start wso2si-demo.
+```
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605684089777, data=[6, 11.75], isExpired=false}
+```
+
+
+## Demo 3 - File Processing
+In the FileApp.siddhi we have two sources related to file processing. One is fileeventlistener source which is listening on the directory /file. If any file is created or modified or deleted, it will generate an event. This event is then logged in the console.
+
+The other is file source which listens to a file inside the /file directory. If there is a file it will read all the lines one by one and generate events with the content. In addition, if we add new lines to the file, it will automatically detect the new lines and produce new events. Then these events are logged to the console.
+
+Step 1 - Log into the console of the SI container
+```
+docker exec -it wso2si-demo bash
+```
+
+Step 2 - Move 
+```
+mv ordersFile.csv order_directory/ordersFile.csv
+```
+
+Step 3 - Observe the logs
+
+Observe the following log which indicates a file named testFile.csv is created in the directory /home/wso2carbon/file
+```
+INFO {io.siddhi.core.stream.output.sink.LogSink} - FileApp : FooStream : Event{timestamp=1605684253673, data=[/home/wso2carbon/order_directory/ordersFile.csv, ordersFile.csv, created], isExpired=false}
+```
+
+The file testFile.csv contained the following
+```
+101,23.5
+102,2.5
+```
+
+Observe the following logs which correspond to the two lines available in the file.
+```
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from CDC on SweetProductionStream:  : 23.5,101
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from CDC on SweetProductionStream:  : 2.5,102
+
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605684254366, data=[106, 23.5], isExpired=false}
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605684254368, data=[107, 2.5], isExpired=false}
+```
+
+Is it also worth noting that we have added a simple csv custom mapping to reorder the columns of data (The first column becomes the second and vice-versa)
+
+### Test file tailing
+Step 1 - Open the testFile.csv file inside the container
+```
+nano order_directory/ordersFile.csv
+```
+
+Step 2 - Add a new line as follows and add a new line by hitting enter. Then save the file
+```
+103,4.7
+```
+
+Step 3 - Observe the logs
+```
+Received events from CDC on SweetProductionStream:  : 4.7,103
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605684401118, data=[108, 4.7], isExpired=false}
+INFO {io.siddhi.core.stream.output.sink.LogSink} - FileApp : FooStream : Event{timestamp=1605684401247, data=[/home/wso2carbon/order_directory/ordersFile.csv, ordersFile.csv, modifyingCompleted], isExpired=false}
+```
+
+### Test Reading Complex XML File
+Step 1 - Log into the console of the SI container
+```
+docker exec -it wso2si-demo bash
+```
+
+Step 2 - Open the complexData.xml file
+```
+nano xml_directory/complexData.xml
+```
+
+Step 3 - Add the following in the root tag in the place as shown below
+```
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+	<bounds minlat="53.4281" minlon="-2.4142" maxlat="54.0097" maxlon="-0.9762"/>
+	<way id="3698064" timestamp="2017-12-30T23:25:01Z" >
+		<detail key="company" value="ibm"/>
+		<detail key="country" value="USA"/>
+		<subDetail ref="2143797720"/>
+		<subDetail ref="2143797722"/>
+	</way>
+	<node id="1234567890" timestamp="2014-09-11T10:36:37Z" />
+	<way id="204702407" version="3" timestamp="2017-12-31T00:30:25Z">
+		<detail key="company" value="ibm"/>
+		<detail key="country" value="USA"/>
+		<subDetail ref="2143797720"/>
+		<subDetail ref="2143797722"/>
+	</way>
+	<!--Content to add-->
+	<child id="413229" timestamp="2014-09-10T14:12:48Z"/>
+	<child id="414427" timestamp="2018-01-24T23:16:10Z"/>
+	<child id="673959" timestamp="2019-10-20T12:07:13Z">
+		<extra id="1234" timestamp="2014-09-11T10:36:37Z"/>
+		<detail key="company" value="wso2"/>
+		<extra id="0987" timestamp="2014-09-11T10:36:37Z"/>
+		<detail key="country" value="Sri Lanka"/>
+	</child>
+	<child id="1649133314" timestamp="2019-03-11T17:16:47Z">
+		<extra id="5678" timestamp="2014-09-11T10:36:37Z"/>
+		<detail key="company" value="ibm"/>
+		<detail key="country" value="USA"/>
+		<detail key="employees" value="500"/>
+	</child>
+	<!-- End of Content to add-->
+</root>
+```
+
+Save the modified xml file.
+
+Step 4 - Observe logs in the wso2si-demo container terminal
+```
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexData.xml file  : Event{timestamp=1605764871673, data=[413229, 2014-09-10T14:12:48Z, null, null], isExpired=false}
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexData.xml file  : Event{timestamp=1605764871680, data=[414427, 2018-01-24T23:16:10Z, null, null], isExpired=false}
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexData.xml file  : [Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, null, null], isExpired=false}, Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, company, wso2], isExpired=false}, Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, null, null], isExpired=false}, Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, country, Sri Lanka], isExpired=false}]
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexData.xml file  : [Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, null, null], isExpired=false}, Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, company, ibm], isExpired=false}, Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, country, USA], isExpired=false}, Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, employees, 500], isExpired=false}]
+```
+
+## Demo 4 - Combined Demo
+
+In this demo, we will see how file processing, database interactions, change data capture, and Kafka publishing can be chained.
+We have a directory named `order_directory_combined` which has a file named `ordersFile.csv`.  A file source listens on this directory to capture any inputs into this file. Any lines written will be read and written into `SweetProductionTable`. Then the CDC listener on `SweetProductionTable` will capture this insertion and publish an event to Kafka topic `order_topic`.
+
+Step 1 - Log in to the console of the SI container
+```
+docker exec -it wso2si-demo bash
+```
+
+Step 2 - Open the complexData.xml file
+```
+nano order_directory_combined/ordersFile.csv
+```
+
+Step 3 - Add a new line as follows and add a new line by hitting enter. Then save the file
+```
+214,43.1
+```
+
+Step 4 - Observe the logs from the Kafka Topic
+```
+INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1606374017404, data=[214, 43.1], isExpired=false}
+```
