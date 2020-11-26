@@ -45,7 +45,9 @@ password: admin
 
 ## Demo 1 - Receive and Send events with Kafka
 
-In the first demo we will see how we can publish and receive events to and from kafka topics. A Siddhi App named `KafkaApp.siddhi` was designed for this purpose.
+In the first demo we will see how we can publish and receive events to and from kafka topics. A Siddhi App named `KafkaApp.siddhi` was designed for this purpose. This app publishes to `production_topic` and consumes from `order_topic`. In addition, this app also has an HTTP source listening at `http://0.0.0.0:8006/httpStream` and a log sink.
+
+![KafkaApp](https://github.com/niruhan/wso2si-demo/blob/main/images/kafka_app.png?raw=true)
 
 ```
 @App:name("KafkaApp")
