@@ -138,6 +138,38 @@ INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_to
 The SQL server custom image at niruhan/mssql-wso2si-demo had a database called "production" and a table named "SweetProductionTable". CDC is enabled on this table. In addition, a CDC source is configured in CDCApp.siddhi which listens for insertions into "SweetProductionTable" and the event is published into “kafka_in” topic. Since we already have a kafka source configured on the same topic, this event is read from the topic and a log is printed
 
 
+```
+@App:name('CDCApp')
+@App:statistics(reporter = 'prometheus')
+@App:description('Capture MSSQL database inserts and prints log')
+
+
+@source(type='cdc',
+    url='jdbc:sqlserver://mssql-wso2si-demo:1433;databaseName=production;',
+    username='SA',
+    password='Wso2carbon',
+    table.name='dbo.SweetProductionTable',
+    operation='insert',
+    database.server.name='localhost\default',
+    connector.properties='snapshot.mode=initial_schema_only',
+    @map(type='keyvalue', fail.on.missing.attribute='false'))
+define stream CDCInputStream (batchNumber long, lowTotal double);
+
+--@sink(type='log', prefix='Received events from CDC on SweetProductionStream: ')
+--define stream CDCLogStream (batchNumber long, lowTotal double);
+
+@sink(type='kafka',
+      topic='order_topic',
+      bootstrap.servers='localhost:9092',
+      @map(type='json'))
+define stream KafkaCDCOutputStream (batchNumber long, lowTotal double);
+
+@info(name = 'show_in_logs_query')
+from CDCInputStream
+select batchNumber, lowTotal / 2 as lowTotal
+insert into KafkaCDCOutputStream;
+```
+
 Step 1 - Log in to the  SQL server image from a new terminal
 ```
 docker exec -it mssql-wso2si-demo bash
