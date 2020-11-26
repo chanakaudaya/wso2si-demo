@@ -137,6 +137,7 @@ INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_to
 
 The SQL server custom image at niruhan/mssql-wso2si-demo had a database called "production" and a table named "SweetProductionTable". CDC is enabled on this table. In addition, a CDC source is configured in CDCApp.siddhi which listens for insertions into "SweetProductionTable" and the event is published into “kafka_in” topic. Since we already have a kafka source configured on the same topic, this event is read from the topic and a log is printed
 
+![CDC](https://github.com/niruhan/wso2si-demo/blob/main/images/cdc.png?raw=true)
 
 ```
 @App:name('CDCApp')
@@ -154,9 +155,6 @@ The SQL server custom image at niruhan/mssql-wso2si-demo had a database called "
     connector.properties='snapshot.mode=initial_schema_only',
     @map(type='keyvalue', fail.on.missing.attribute='false'))
 define stream CDCInputStream (batchNumber long, lowTotal double);
-
---@sink(type='log', prefix='Received events from CDC on SweetProductionStream: ')
---define stream CDCLogStream (batchNumber long, lowTotal double);
 
 @sink(type='kafka',
       topic='order_topic',
