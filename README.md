@@ -45,6 +45,47 @@ password: admin
 
 ## Demo 1 - Receive and Send events with Kafka
 
+In the first demo we will see how we can publish and receive events to and from kafka topics. A Siddhi App named `KafkaApp.siddhi` was designed for this purpose.
+
+```
+@App:name("KafkaApp")
+@App:statistics(reporter = 'prometheus')
+@App:description('Send and receive events via Kafka transport using JSON format')
+
+@Source(type = 'http',
+        receiver.url='http://0.0.0.0:8006/httpStream',
+        basic.auth.enabled='false',
+        @map(type='json'))
+define stream httpStream (batchNumber long, lowTotal double);
+
+@sink(type='log', prefix='Received events from order_topic topic: ')
+define stream logStream (batchNumber long, lowTotal double);
+
+@sink(type='kafka',
+      topic='production_topic',
+      bootstrap.servers='localhost:9092',
+      @map(type='json'))
+define stream KafkaOutputStream (batchNumber long, lowTotal double);
+
+@source(type='kafka',
+        topic.list='order_topic',
+        partition.no.list='0',
+        threading.option='single.thread',
+        group.id="group",
+        bootstrap.servers='localhost:9092',
+        @map(type='json'))
+define stream KafkaInputStream (batchNumber long, lowTotal double);
+
+@info(name='EventsPassthroughQuery')
+from httpStream
+select batchNumber, lowTotal * 2 as lowTotal
+insert into KafkaOutputStream;
+
+from KafkaInputStream
+select batchNumber + 5 as batchNumber, lowTotal
+insert into logStream;
+```
+
 ### Test Publishing to Kafka.
 
 Step 1 - Access the shell of the wso2si-demo container
