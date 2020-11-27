@@ -14,6 +14,11 @@ The container `wso2si-demo` contains WSO2 Streaming Integrator, Kafka Zookeper, 
 
 ## Table of Contents
 [Start the containers](#start)
+[Monitoring](#monitoring)
+[Demo 1 - Receive and Send events with Kafka](#demo1)
+[Demo 2 - Change Data Capture (CDC) with Microsoft SQL Server](#demo2)
+[Demo 3 - File Processing](#demo3)
+[Demo 4 - Combined Demo](#demo4)
 
 <a name="start"/>
 
@@ -39,6 +44,8 @@ Step 4 - Start the wso2si-demo with a link to the SQL server
 docker run --name wso2si-demo -p 8006:8006 -p 3000:3000 --link mssql-wso2si-demo niruhan/wso2si-demo
 ```
 
+<a name="monitoring"/>
+
 ## Monitoring
 In order to observe statistics and insights related to streaming activities performed by wso2si visit `http://localhost:3000`
 In the address above you can access Grafana dashboards related to various metrics. Everything has been preconfigured and baked into this Docker image.
@@ -47,6 +54,8 @@ Use the following credentials if prompted for a login
 username: admin
 password: admin
 ```
+
+<a name="demo1"/>
 
 ## Demo 1 - Receive and Send events with Kafka
 
@@ -138,6 +147,8 @@ Step 3 - Observe the following logs in the terminal used to start wso2si-demo co
 INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605007067048, data=[7, 45.6], isExpired=false}
 ```
 
+<a name="demo2"/>
+
 ## Demo 2 - Change Data Capture (CDC) with Microsoft SQL Server
 
 The SQL server custom image at niruhan/mssql-wso2si-demo had a database called "production" and a table named "SweetProductionTable". CDC is enabled on this table. In addition, a CDC source is configured in CDCApp.siddhi which listens for insertions into "SweetProductionTable" and the event is published into “kafka_in” topic. Since we already have a kafka source configured on the same topic, this event is read from the topic and a log is printed
@@ -204,6 +215,7 @@ Step 5 - Observe logs in the terminal used to start wso2si-demo.
 INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605684089777, data=[6, 11.75], isExpired=false}
 ```
 
+<a name="demo3"/>
 
 ## Demo 3 - File Processing
 In the FileApp.siddhi we have two sources related to file processing. One is fileeventlistener source which is listening on the directory /file. If any file is created or modified or deleted, it will generate an event. This event is then logged in the console.
@@ -386,6 +398,8 @@ INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexD
 INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexData.xml file  : [Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, null, null], isExpired=false}, Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, company, wso2], isExpired=false}, Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, null, null], isExpired=false}, Event{timestamp=1605764871683, data=[673959, 2019-10-20T12:07:13Z, country, Sri Lanka], isExpired=false}]
 INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexData.xml file  : [Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, null, null], isExpired=false}, Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, company, ibm], isExpired=false}, Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, country, USA], isExpired=false}, Event{timestamp=1605764872613, data=[1649133314, 2019-03-11T17:16:47Z, employees, 500], isExpired=false}]
 ```
+
+<a name="demo4"/>
 
 ## Demo 4 - Combined Demo
 
