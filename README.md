@@ -270,6 +270,8 @@ insert into xmlOutputStream;
 
 ```
 
+![File Processing](https://github.com/niruhan/wso2si-demo/blob/main/images/file_proc.png?raw=true)
+
 Step 1 - Log into the console of the SI container
 ```
 docker exec -it wso2si-demo bash
