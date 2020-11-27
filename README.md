@@ -387,6 +387,39 @@ INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexD
 In this demo, we will see how file processing, database interactions, change data capture, and Kafka publishing can be chained.
 We have a directory named `order_directory_combined` which has a file named `ordersFile.csv`.  A file source listens on this directory to capture any inputs into this file. Any lines written will be read and written into `SweetProductionTable`. Then the CDC listener on `SweetProductionTable` will capture this insertion and publish an event to Kafka topic `order_topic`.
 
+
+```
+@App:name("CombinedDemoApp")
+@App:statistics(reporter = 'prometheus')
+@App:description('PDemonstrate file reading, DB insert, CDC, and Kafka publishing')
+
+@source(type='file',
+dir.uri='file://home/wso2carbon/order_directory_combined',
+action.after.process='NONE',
+tailing='true', mode='line',
+@map(type='csv', @attributes(batchNumber='0', lowTotal='1')))
+define stream InputStream (batchNumber long, lowTotal double);
+
+@Store(type="rdbms",
+    jdbc.url="jdbc:sqlserver://mssql-wso2si-demo:1433;databaseName=production;",
+    username="SA",
+    password="Wso2carbon" ,
+    jdbc.driver.name="com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    field.length="symbol:100")
+define table SweetProductionTable (batchNumber long, lowTotal double);
+
+@sink(type='log', prefix='Received events from file changes in order_directory_combined: ', @map(type='csv', @payload(batchNumber='1', lowTotal='0')))
+define stream OutputStream (batchNumber long, lowTotal double);
+
+from InputStream
+select *
+insert into OutputStream;
+
+from InputStream
+select *
+insert into SweetProductionTable;
+```
+
 Step 1 - Log in to the console of the SI container
 ```
 docker exec -it wso2si-demo bash
