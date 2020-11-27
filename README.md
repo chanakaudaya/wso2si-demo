@@ -13,12 +13,16 @@ on this table.
 The container `wso2si-demo` contains WSO2 Streaming Integrator, Kafka Zookeper, Kafka Server, Kafka Console Client, Kafka Console Producer, Prometheus, and Grafana servers pre-configured to minimize the effort required to follow this demonstration.
 
 ## Table of Contents
-[Start the containers](#start)
-[Monitoring](#monitoring)
-[Demo 1 - Receive and Send events with Kafka](#demo1)
-[Demo 2 - Change Data Capture (CDC) with Microsoft SQL Server](#demo2)
-[Demo 3 - File Processing](#demo3)
-[Demo 4 - Combined Demo](#demo4)
+- [Start the containers](#start)
+- [Monitoring](#monitoring)
+- [Demo 1 - Receive and Send events with Kafka](#demo1)
+  - [Test Publishing to Kafka](#kafkapub)
+  - [Test Receiving from Kafka](#kafkacon)
+- [Demo 2 - Change Data Capture (CDC) with Microsoft SQL Server](#demo2)
+- [Demo 3 - File Processing](#demo3)
+  - [Test file tailing](#tailing)
+  - [Test Reading Complex XML File](#complexxml)
+- [Demo 4 - Combined Demo](#demo4)
 
 <a name="start"/>
 
@@ -102,6 +106,8 @@ select batchNumber + 5 as batchNumber, lowTotal
 insert into logStream;
 ```
 
+<a name="kafkapub"/>
+
 ### Test Publishing to Kafka.
 In this demo we will see how we can publish events to kafka topic. We can send an HTTP request to `http://0.0.0.0:8006/httpStream` to trigger the relevant actions by `KafkaApp.siddhi`. We can use the Kafka Console Consumer to observe the events published by the KafkaApp to the `production_topic`
 
@@ -126,6 +132,8 @@ Step 4 - Observe the logs in the kafka console consumer
 ```
 {"event":{"batchNumber":7,"lowTotal":45.6}}
 ```
+
+<a name="kafkacon"/>
 
 ### Test Receiving from Kafka.
 In this demo we will see how we can consume events from kafka topic. We can use the Kafka Console Producer to publish events into `order_topic`. This will be captured by the Kafka source within the KafkaApp and will be logged in the wso2si-demo container terminal after some transformation.
@@ -323,6 +331,8 @@ INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_to
 
 Is it also worth noting that we have added a simple csv custom mapping to reorder the columns of data (The first column becomes the second and vice-versa)
 
+<a name="tailing"/>
+
 ### Test file tailing
 Step 1 - Open the testFile.csv file inside the container
 ```
@@ -340,6 +350,8 @@ Received events from CDC on SweetProductionStream:  : 4.7,103
 INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from order_topic topic:  : Event{timestamp=1605684401118, data=[108, 4.7], isExpired=false}
 INFO {io.siddhi.core.stream.output.sink.LogSink} - FileApp : FooStream : Event{timestamp=1605684401247, data=[/home/wso2carbon/order_directory/ordersFile.csv, ordersFile.csv, modifyingCompleted], isExpired=false}
 ```
+
+<a name="complexxml"/>
 
 ### Test Reading Complex XML File
 Step 1 - Log into the console of the SI container
