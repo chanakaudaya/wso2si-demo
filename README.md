@@ -12,6 +12,10 @@ on this table.
 
 The container `wso2si-demo` contains WSO2 Streaming Integrator, Kafka Zookeper, Kafka Server, Kafka Console Client, Kafka Console Producer, Prometheus, and Grafana servers pre-configured to minimize the effort required to follow this demonstration.
 
+## Table of Contents
+[Start the containers] (#start)
+
+<a name="start"/>
 ## Start the required Docker images
 
 Step 1 - Pull the custom mssql image with all the necessary settings preconfigured
