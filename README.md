@@ -16,6 +16,7 @@ The container `wso2si-demo` contains WSO2 Streaming Integrator, Kafka Zookeper, 
 [Start the containers](#start)
 
 <a name="start"/>
+
 ## Start the required Docker images
 
 Step 1 - Pull the custom mssql image with all the necessary settings preconfigured
