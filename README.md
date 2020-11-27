@@ -387,6 +387,7 @@ INFO {io.siddhi.core.stream.output.sink.LogSink} - Received events from complexD
 In this demo, we will see how file processing, database interactions, change data capture, and Kafka publishing can be chained.
 We have a directory named `order_directory_combined` which has a file named `ordersFile.csv`.  A file source listens on this directory to capture any inputs into this file. Any lines written will be read and written into `SweetProductionTable`. Then the CDC listener on `SweetProductionTable` will capture this insertion and publish an event to Kafka topic `order_topic`.
 
+![Combined Demo](https://github.com/niruhan/wso2si-demo/blob/main/images/combined.png?raw=true)
 
 ```
 @App:name("CombinedDemoApp")
